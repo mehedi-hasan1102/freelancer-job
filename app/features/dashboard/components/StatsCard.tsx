@@ -3,7 +3,7 @@
 import { FiGithub } from 'react-icons/fi';
 import { FaStar, FaCodeBranch, FaUsers, FaBox } from 'react-icons/fa';
 import { CARD, CARD_GLOW, SECTION_TITLE, STATS_CARD } from '../constants';
-import { useCardGlow } from '../hooks/useCardGlow';
+import { useCardGlow } from '@/app/hooks/useCardGlow';
 import type { GithubStats } from '../types';
 
 type StatsCardProps = {

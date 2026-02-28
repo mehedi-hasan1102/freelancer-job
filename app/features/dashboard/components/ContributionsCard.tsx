@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FiCode } from 'react-icons/fi';
 import { FaArrowRight } from 'react-icons/fa';
 import { CARD, CARD_GLOW, SECTION_HEADER, SECTION_TITLE, VIEW_LINK } from '../constants';
-import { useCardGlow } from '../hooks/useCardGlow';
+import { useCardGlow } from '@/app/hooks/useCardGlow';
 
 type ContributionsCardProps = {
   username: string;

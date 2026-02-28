@@ -2,7 +2,7 @@
 
 import { FiCode, FiExternalLink, FiGitBranch, FiStar } from 'react-icons/fi';
 import { PROJECT_CARD, PROJECT_GLOW, PROJECT_LINK_ICON } from '../constants';
-import { useCardGlow } from '../hooks/useCardGlow';
+import { useCardGlow } from '@/app/hooks/useCardGlow';
 import type { DashboardProject } from '../types';
 
 type ProjectCardProps = {

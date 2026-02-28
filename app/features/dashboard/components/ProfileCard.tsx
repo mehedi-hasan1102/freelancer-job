@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { CARD, CARD_GLOW, PROFILE_CARD } from '../constants';
-import { useCardGlow } from '../hooks/useCardGlow';
+import { useCardGlow } from '@/app/hooks/useCardGlow';
 import type { UserProfile } from '../types';
 
 type ProfileCardProps = {
