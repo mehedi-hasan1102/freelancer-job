@@ -102,7 +102,7 @@ export default function Hero() {
                 fontFamily: "'Staatliches', serif",
               }}
             >
-              WEB ENGINEER
+              WEB DEVELOPER
             </h1>
             <p className="mt-8 overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(0.75rem,2vw,1.125rem)] uppercase tracking-[0.3em] opacity-60 max-[768px]:text-[clamp(0.65rem,1.8vw,0.9rem)] max-[768px]:tracking-[0.2em] max-[480px]:text-[clamp(0.6rem,1.5vw,0.8rem)] max-[480px]:tracking-[0.15em]">
               Scroll down to explore
