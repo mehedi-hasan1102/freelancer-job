@@ -24,15 +24,56 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
+
 export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const firstFieldRef = useRef<HTMLInputElement>(null);
+  const lastActiveElement = useRef<HTMLElement | null>(null);
   const [formData, setFormData] = useState({
     email: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Focus trap and Esc-to-close
+  useEffect(() => {
+    if (!modalRef.current) return;
+    const modal = modalRef.current;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+      if (e.key === 'Tab') {
+        const focusableEls = modal.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusableEls[0];
+        const last = focusableEls[focusableEls.length - 1];
+        if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        } else if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      }
+    }
+    if (isOpen) {
+      lastActiveElement.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        firstFieldRef.current?.focus();
+      }, 100);
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      window.removeEventListener('keydown', handleKeyDown);
+      lastActiveElement.current?.focus();
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   useEffect(() => {
     if (!modalRef.current) return;
@@ -114,6 +155,9 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     <div
       ref={modalRef}
       className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.7)] p-4 opacity-0 [backdrop-filter:blur(4px)] pointer-events-none transition-opacity duration-300 [transition-timing-function:ease] max-[480px]:px-2 max-[480px]:py-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="booking-modal-title"
       onClick={(e) => {
         if (e.target === modalRef.current) {
           onClose();
@@ -124,6 +168,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         ref={formRef}
         className="relative w-full max-w-[500px] rounded-[12px] border border-[rgba(6,182,212,0.2)] bg-[var(--bg)] p-10 shadow-[0_20px_60px_rgba(6,182,212,0.15)] [animation:bookingModalSlideIn_0.4s_ease-out] max-[600px]:rounded-[10px] max-[600px]:px-6 max-[600px]:py-8 max-[480px]:rounded-[8px] max-[480px]:px-5 max-[480px]:py-7"
         onSubmit={handleSubmit}
+        aria-describedby="booking-modal-desc"
       >
         {/* Close Button */}
         <button
@@ -136,10 +181,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         </button>
 
         {/* Heading */}
-        <h2 className="mb-2 font-['Staatliches',serif] text-[2rem] font-normal leading-none tracking-[0.05em] text-[var(--text)] max-[600px]:mb-1.5 max-[600px]:text-[1.75rem] max-[480px]:mb-1 max-[480px]:text-[1.5rem]">
+        <h2 id="booking-modal-title" className="mb-2 font-['Staatliches',serif] text-[2rem] font-normal leading-none tracking-[0.05em] text-[var(--text)] max-[600px]:mb-1.5 max-[600px]:text-[1.75rem] max-[480px]:mb-1 max-[480px]:text-[1.5rem]">
           Book a Project Call
         </h2>
-        <p className="mb-8 font-['Inter',monospace] text-[0.875rem] tracking-[0.02em] text-[var(--text-secondary)] max-[600px]:mb-6 max-[600px]:text-[0.8rem] max-[480px]:mb-5 max-[480px]:text-[0.75rem]">
+        <p id="booking-modal-desc" className="mb-8 font-['Inter',monospace] text-[0.875rem] tracking-[0.02em] text-[var(--text-secondary)] max-[600px]:mb-6 max-[600px]:text-[0.8rem] max-[480px]:mb-5 max-[480px]:text-[0.75rem]">
           Share your goals. I help with landing pages, React/Next.js builds, and performance fixes.
         </p>
 
@@ -177,19 +222,25 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
         {/* Form Fields */}
         <div className="mb-6 max-[600px]:mb-5 max-[480px]:mb-4">
+          <label htmlFor="booking-email" className="sr-only">Email</label>
           <input
+            ref={firstFieldRef}
+            id="booking-email"
             type="email"
             name="email"
             placeholder="Your Email"
             value={formData.email}
             onChange={handleInputChange}
             required
+            autoComplete="email"
             className="w-full rounded-[8px] border border-[rgba(6,182,212,0.3)] bg-[rgba(6,182,212,0.05)] px-4 py-3.5 font-['Inter',monospace] text-[0.95rem] tracking-[0.02em] text-[var(--text)] outline-none transition-all duration-300 [transition-timing-function:ease] placeholder:text-[var(--text-secondary)] placeholder:opacity-60 focus:border-[var(--accent)] focus:bg-[rgba(6,182,212,0.08)] focus:shadow-[0_0_0_3px_rgba(6,182,212,0.1)] max-[600px]:px-[0.875rem] max-[600px]:py-3 max-[600px]:text-[0.9rem] max-[480px]:px-3 max-[480px]:py-2.5 max-[480px]:text-[0.85rem]"
           />
         </div>
 
         <div className="mb-6 max-[600px]:mb-5 max-[480px]:mb-4">
+          <label htmlFor="booking-message" className="sr-only">Project Brief</label>
           <textarea
+            id="booking-message"
             name="message"
             placeholder="Tell me what you need (e.g. landing page audit, Next.js fixes, UI refactor)..."
             value={formData.message}

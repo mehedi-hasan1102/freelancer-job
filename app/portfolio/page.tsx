@@ -324,7 +324,7 @@ function PortfolioPageContent() {
             <Link href="/blog" className="text-[var(--accent)] underline underline-offset-4 hover:opacity-80">
               blog
             </Link>{" "}
-            while you're here. I write about technology, learning and memes.
+            while you&apos;re here. I write about technology, learning and memes.
           </p>
         </div>
 

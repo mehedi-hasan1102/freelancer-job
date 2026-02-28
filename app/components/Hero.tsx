@@ -119,14 +119,16 @@ export default function Hero() {
           </div>
 
           {/* Scroll indicator with animation */}
-          <div
-            className="absolute bottom-[-5rem] left-1/2 z-20 -translate-x-1/2 cursor-pointer transition-all duration-300 [transition-timing-function:ease] hover:scale-[1.2]"
+          <button
+            type="button"
+            className="absolute bottom-[-5rem] left-1/2 z-20 -translate-x-1/2 cursor-pointer transition-all duration-300 [transition-timing-function:ease] hover:scale-[1.2] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            aria-label="Scroll to About section"
             onClick={() => {
-            const aboutSection = document.getElementById('about');
-            if (aboutSection) {
-              aboutSection.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
+              const aboutSection = document.getElementById('about');
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
           >
             <div className="flex h-10 w-6 justify-center rounded-full border-2 border-[var(--accent)] pt-2">
               <div
@@ -134,7 +136,7 @@ export default function Hero() {
                 className="h-2 w-1 rounded-full bg-[var(--accent)]"
               />
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </section>

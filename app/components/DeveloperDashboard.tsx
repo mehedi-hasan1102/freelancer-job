@@ -302,11 +302,16 @@ const ProjectCardItem = ({ project }: { project: Project }) => {
   };
 
   return (
-    <div
+    <a
       ref={cardRef}
-      className={PROJECT_CARD}
+      className={PROJECT_CARD + ' focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]'}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
+      href={project.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      tabIndex={0}
+      aria-label={`Open project ${project.name} in new tab`}
     >
       <div ref={glowRef} className={PROJECT_GLOW} />
       <span className={PROJECT_LINK_ICON} aria-hidden="true">
@@ -327,7 +332,7 @@ const ProjectCardItem = ({ project }: { project: Project }) => {
           <FiGitBranch size={14} /> {project.forks}
         </span>
       </div>
-    </div>
+    </a>
   );
 };
 
