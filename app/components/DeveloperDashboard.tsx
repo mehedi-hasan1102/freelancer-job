@@ -141,6 +141,7 @@ const DashboardSkeleton = () => {
               height: '64px',
               borderRadius: '12px',
               background: shimmerBg,
+              margin: '0 auto',
               animation: 'shimmer 2s infinite',
             }}
           />
