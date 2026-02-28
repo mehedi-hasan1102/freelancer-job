@@ -320,8 +320,11 @@ function PortfolioPageContent() {
             All <span style={{ color: "var(--accent)" }}>PROJECTS</span>
           </h2>
           <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
-            I build conversion-focused web products, landing pages, and UI systems with clean
-            execution, strong performance, and clear business intent.
+            I’ve developed commercial projects as well as hobby projects. All projects are included (along with course related projects) here. - checkout my{" "}
+            <Link href="/blog" className="text-[var(--accent)] underline underline-offset-4 hover:opacity-80">
+              blog
+            </Link>{" "}
+            while you're here. I write about technology, learning and memes.
           </p>
         </div>
 
