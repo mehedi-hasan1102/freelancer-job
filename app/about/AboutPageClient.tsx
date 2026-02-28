@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
@@ -123,16 +124,12 @@ export default function AboutPageClient({ experiences }: AboutPageClientProps) {
               About <span style={{ color: 'var(--accent)' }}>ME</span>
             </h1>
             <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
-                 I help businesses build high-performing digital products from idea to execution. Let&apos;s connect on{" "}
-                <a
-                  href="https://www.linkedin.com/in/mehedi-hasan1102"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--accent)] underline underline-offset-4 hover:opacity-80"
-                >
-                  LinkedIn
-                </a>{" "}
-                 to explore opportunities and updates.
+              I help businesses build high-performing digital products from idea to execution.
+              {' '}Check out my{' '}
+              <Link href="/portfolio" className="text-[var(--accent)] underline underline-offset-4 hover:opacity-80">
+                work
+              </Link>{' '}
+              while you&apos;re here.
             </p>
           </div>
 
