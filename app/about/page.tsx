@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function WhoAmIPage() {
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const paragraphsRef = useRef<HTMLDivElement[]>([]);
   const profileImageRef = useRef<HTMLDivElement>(null);
   const profileBorderRef = useRef<HTMLDivElement>(null);
@@ -110,14 +110,18 @@ export default function WhoAmIPage() {
       <section
         id="about"
         ref={sectionRef}
-        className="section-padding relative overflow-hidden"
+        className="relative min-h-screen overflow-hidden py-[clamp(4rem,8vw,8rem)]"
         style={{ background: 'var(--bg)' }}
       >
-        <div className="container relative z-10">
-          <div ref={headingRef} className="mb-10 overflow-hidden text-center">
-            <h1 className="sectionTitleGlobal">
+        <div className="relative z-[2] mx-auto max-w-[1400px] px-[clamp(1rem,4vw,4rem)]">
+          <div className="mb-10 overflow-hidden text-center">
+            <h1 ref={headingRef} className="sectionTitleGlobal">
               About <span style={{ color: 'var(--accent)' }}>ME</span>
             </h1>
+            <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
+              I design and build conversion-focused frontend experiences with practical delivery,
+              clear communication, and consistent iteration.
+            </p>
           </div>
 
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
