@@ -781,10 +781,9 @@ const DeveloperDashboard = () => {
           <h1 className="sectionTitleGlobal">
             Developer <span className={TITLE_ACCENT}>Dashboard</span>
           </h1>
-          <p className="max-w-[760px] text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
-            A live snapshot of my GitHub activity, recent commits, and project momentum to keep
-            collaboration transparent.
-          </p>
+          <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
+                 Built with Next.js serverless API routes, this dashboard tracks and visualizes metrics across platforms like GitHub to provide actionable insights.
+            </p>
         </div>
 
         {/* Main Grid with Profile, Stats, and Now Playing */}
