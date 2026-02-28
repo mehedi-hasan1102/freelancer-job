@@ -6,7 +6,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import Experience from '../components/Experience';
-import GitHubActivity from '../components/GitHubActivity';
 import type { ExperienceItem } from '@/lib/site-data';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -215,7 +214,6 @@ export default function AboutPageClient({ experiences }: AboutPageClientProps) {
       </section>
 
       <Experience experiences={experiences} sortByDate />
-      <GitHubActivity />
     </div>
   );
 }
