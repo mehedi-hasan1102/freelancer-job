@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
-import { FiMenu, FiX, FiMessageSquare, FiChevronDown } from 'react-icons/fi';
+import { FiMenu, FiX, FiCalendar, FiChevronDown } from 'react-icons/fi';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import BookingModal from './BookingModal';
 import { useTheme } from '../../lib/useTheme';
@@ -384,7 +384,7 @@ export default function Navbar() {
               }}
             >
             
-              <FiMessageSquare
+              <FiCalendar
                 size={18}
                 className="shrink-0 transition-all duration-300 group-hover:scale-[1.15] group-hover:-rotate-20"
               />
@@ -401,7 +401,7 @@ export default function Navbar() {
               className="rounded-full bg-[rgba(var(--accent-rgb),0.2)] p-1.5 text-[var(--accent)] transition-all duration-300 hover:scale-110 sm:p-2"
               aria-label="Book a call"
             >
-              <FiMessageSquare size={18} />
+              <FiCalendar size={18} />
             </button>
 
             <button

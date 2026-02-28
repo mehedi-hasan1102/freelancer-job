@@ -6,6 +6,7 @@ import type { IconType } from 'react-icons';
 import {
   FiArrowUpRight,
   FiBriefcase,
+  FiCalendar,
   FiCheckCircle,
   FiClock,
   FiDollarSign,
@@ -36,6 +37,8 @@ type PanelProps = {
 
 const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/mehedi-hasan1102/30min';
+const CUSTOM_ESTIMATE_MAILTO =
+  'mailto:mehedi.hasan11023@gmail.com?subject=Custom%20Estimate%20Request&body=Hi%20Mehedi%2C%0A%0AI%20need%20a%20custom%20estimate%20for%20my%20project.%0AProject%20type%3A%0ABudget%20range%3A%0ATimeline%3A%0A%0AThanks.';
 
 const SERVICE_OFFERS: ServiceOffer[] = [
   {
@@ -214,13 +217,13 @@ export default function FreelancingPage() {
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                <FiArrowUpRight size={16} />
+                <FiCalendar size={16} />
                 <span>BOOK A 20-MIN CALL</span>
               </Link>
-              <Link href="/#contact" className="btn-secondary">
+              <a href={CUSTOM_ESTIMATE_MAILTO} className="btn-secondary">
                 <FiArrowUpRight size={16} />
                 <span>GET A CUSTOM ESTIMATE</span>
-              </Link>
+              </a>
             </div>
           </Panel>
         </section>
