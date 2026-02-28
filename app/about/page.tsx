@@ -119,8 +119,16 @@ export default function WhoAmIPage() {
               About <span style={{ color: 'var(--accent)' }}>ME</span>
             </h1>
             <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
-              I design and build conversion-focused frontend experiences with practical delivery,
-              clear communication, and consistent iteration.
+                I help businesses turn ideas into high-performing digital products. As a full-stack developer, I handle everything from system architecture to conversion-focused frontend — with clear communication and execution that ships. Let&apos;s connect on{" "}
+                <a
+                  href="https://www.linkedin.com/in/mehedi-hasan1102"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--accent)] underline underline-offset-4 hover:opacity-80"
+                >
+                  LinkedIn
+                </a>{" "}
+                to explore more about my work and updates on digital products and business-focused development.
             </p>
           </div>
 

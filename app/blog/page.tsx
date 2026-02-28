@@ -40,8 +40,7 @@ export default async function Blog({ searchParams }: BlogPageProps) {
             All<span style={{ color: 'var(--accent)' }}> Blogs</span>
           </h1>
           <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
-            I share practical frontend lessons, conversion insights, and implementation
-            breakdowns from real projects.
+            I've been programming for almost 2 years now. Throughout this year, I've worked with various technologies. I'm here to share just that. Use the search below to filter by title.
           </p>
         </div>
       </section>
