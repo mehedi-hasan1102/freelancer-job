@@ -1,38 +1,18 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
+import { SITE_URL } from "@/lib/seo";
+import { getProjectSlugs } from "@/lib/site-data";
 
-const SITE_URL = "https://www.mehedi-hasan.me";
-
-const STATIC_ROUTES = ["/", "/about", "/blog", "/dashboard", "/links", "/portfolio"];
-
-type ProjectItem = {
-  slug?: unknown;
-};
-
-const getProjectSlugs = (): string[] => {
-  const filePath = path.join(process.cwd(), "public", "data", "projects.json");
-
-  if (!fs.existsSync(filePath)) {
-    return [];
-  }
-
-  try {
-    const raw = fs.readFileSync(filePath, "utf8");
-    const parsed = JSON.parse(raw) as ProjectItem[];
-
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed
-      .map((project) => (typeof project.slug === "string" ? project.slug : ""))
-      .filter(Boolean);
-  } catch {
-    return [];
-  }
-};
+const STATIC_ROUTES = [
+  "/",
+  "/about",
+  "/blog",
+  "/dashboard",
+  "/freelancing",
+  "/links",
+  "/portfolio",
+  "/recognition",
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

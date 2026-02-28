@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { CodeBlock } from './CodeBlock';
 export { CodeBlock } from './CodeBlock';
 
@@ -47,9 +48,12 @@ export const Img = ({
   caption?: string;
 }) => (
   <figure className="my-8 text-center">
-    <img
+    <Image
       src={src}
       alt={alt}
+      width={1600}
+      height={900}
+      sizes="(max-width: 768px) 100vw, 820px"
       className="w-full max-w-full rounded-[12px] border border-[rgba(255,255,255,0.1)] [html.light-mode_&]:border-[rgba(0,0,0,0.1)]"
     />
     {caption && (

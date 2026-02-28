@@ -278,10 +278,10 @@ const DashboardSkeleton = () => {
 
 // Project Card Component with Glow Effect
 const ProjectCardItem = ({ project }: { project: Project }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!cardRef.current || !glowRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -295,18 +295,11 @@ const ProjectCardItem = ({ project }: { project: Project }) => {
     });
   };
 
-  const handleClick = () => {
-    if (project.url) {
-      window.open(project.url, '_blank');
-    }
-  };
-
   return (
     <a
       ref={cardRef}
       className={PROJECT_CARD + ' focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]'}
       onMouseMove={handleMouseMove}
-      onClick={handleClick}
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"

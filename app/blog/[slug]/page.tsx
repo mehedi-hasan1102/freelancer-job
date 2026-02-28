@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import { getAllPosts, getPostBySlug } from '@/lib/blog';
 import { Callout, Img, CodeBlock, Pre } from '@/app/blog/components/mdx-components';
 import { BackButton } from './BackButton';
+import { createPageMetadata } from '@/lib/seo';
 
 const formatDate = (dateString: string) =>
   new Intl.DateTimeFormat('en', {
@@ -15,18 +17,28 @@ const formatDate = (dateString: string) =>
 export const generateStaticParams = () =>
   getAllPosts().map((post) => ({ slug: post.meta.slug }));
 
-export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }) => {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> => {
   const { slug } = await params;
   const post = getPostBySlug(slug);
 
   if (!post) {
-    return {};
+    return createPageMetadata({
+      path: `/blog/${slug}`,
+      title: 'Blog Post Not Found | Mehedi Hasan',
+      description: 'The requested blog post could not be found.',
+      noIndex: true,
+    });
   }
 
-  return {
+  return createPageMetadata({
+    path: `/blog/${post.meta.slug}`,
     title: `${post.meta.title} | Blog`,
     description: post.meta.excerpt,
-  };
+  });
 };
 
 export default async function BlogPost({

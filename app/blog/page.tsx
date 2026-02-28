@@ -1,5 +1,15 @@
 import { getAllPosts } from '@/lib/blog';
 import { BlogListing } from './BlogListing';
+import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = createPageMetadata({
+  path: '/blog',
+  title: 'Blog | Mehedi Hasan',
+  description:
+    'Technical articles on Next.js, React, productivity, and lessons from real-world development work.',
+  keywords: ['Next.js blog', 'React articles', 'developer writing'],
+});
 
 type BlogPageProps = {
   searchParams: Promise<{

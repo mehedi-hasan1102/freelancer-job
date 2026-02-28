@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FiArrowUpRight, FiExternalLink } from 'react-icons/fi';
@@ -23,6 +23,7 @@ interface ExperienceItem {
 }
 
 interface ExperienceProps {
+  experiences: ExperienceItem[];
   limit?: number;
   showViewAllButton?: boolean;
   sortByDate?: boolean;
@@ -155,32 +156,18 @@ const ExperienceSkeleton = () => {
   );
 };
 
-export default function Experience({ limit, showViewAllButton = false, sortByDate = false }: ExperienceProps) {
-  const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function Experience({
+  experiences,
+  limit,
+  showViewAllButton = false,
+  sortByDate = false,
+}: ExperienceProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const progressFillRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
   const glowRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Load experience data from JSON
-  useEffect(() => {
-    const loadExperiences = async () => {
-      try {
-        const response = await fetch('/data/experience.json');
-        const data = await response.json();
-        setExperiences(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error loading experience data:', error);
-        setLoading(false);
-      }
-    };
-
-    loadExperiences();
-  }, []);
 
   const displayedExperiences = useMemo(() => {
     const shouldSortByDate = Boolean(limit) || sortByDate;
@@ -207,8 +194,7 @@ export default function Experience({ limit, showViewAllButton = false, sortByDat
   };
 
   useEffect(() => {
-    // Don't run animations until data is loaded
-    if (loading || displayedExperiences.length === 0) return;
+    if (displayedExperiences.length === 0) return;
 
     const ctx = gsap.context(() => {
       // Animate header
@@ -307,7 +293,11 @@ export default function Experience({ limit, showViewAllButton = false, sortByDat
     return () => {
       ctx.revert();
     };
-  }, [loading, displayedExperiences]);
+  }, [displayedExperiences]);
+
+  if (displayedExperiences.length === 0) {
+    return <ExperienceSkeleton />;
+  }
 
   return (
     <section
@@ -322,11 +312,7 @@ export default function Experience({ limit, showViewAllButton = false, sortByDat
           </h2>
         </div>
 
-        {loading ? (
-          <ExperienceSkeleton />
-        ) : (
-          /* Timeline */
-          <div ref={timelineRef} className="relative py-8 max-[640px]:py-4">
+        <div ref={timelineRef} className="relative py-8 max-[640px]:py-4">
             <div className="absolute bottom-0 left-1/2 top-0 z-[1] w-[2px] -translate-x-1/2 bg-[rgba(255,255,255,0.08)] transition-colors duration-[600ms] [transition-timing-function:ease] [html.light-mode_&]:bg-[rgba(0,0,0,0.08)] max-[900px]:left-[7px] max-[900px]:translate-x-0 max-[640px]:left-[6px]" />
             <div
               ref={progressFillRef}
@@ -452,9 +438,8 @@ export default function Experience({ limit, showViewAllButton = false, sortByDat
               </div>
             ))}
           </div>
-        )}
 
-        {!loading && showViewAllButton && (
+        {showViewAllButton && (
           <div className="mt-8 flex justify-center">
             <Link href="/about" className="btn-primary">
               <FiArrowUpRight size={16} />

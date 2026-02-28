@@ -1,116 +1,77 @@
 # Portfolio Review Feedback (US Freelancing Client Lens)
 
 ## Executive Summary
-- Visual direction is strong and distinctive, with modern motion and a clear personal brand.
-- Core risks are in accessibility, SEO architecture, and maintainability (very large client components + repeated patterns).
-- Build is healthy with `next build --webpack`, but quality gate currently fails on lint.
-
+- Visual direction remains strong and distinctive.
+- Phase 2 SEO/rendering architecture is now implemented: server-driven data for key content routes, per-route canonical metadata, expanded sitemap coverage, and image optimization migration.
+- Codebase is more modular with shared feature hooks/primitives for repeated card and header patterns.
 
 ## Phase 1 Issues Addressed (March 1, 2026)
-
 ### Issues Fixed
-- All lint errors and warnings in production code (CI now passes `npm run lint`)
-- Modal accessibility (BookingModal):
-  - Added `role="dialog"`, `aria-modal`, and `aria-labelledby`
-  - Implemented focus trap and Esc-to-close
-  - Added explicit `<label>`s for all fields (with `sr-only` for visual clarity)
-- Keyboard navigation for all interactive elements:
-  - Hero scroll indicator is now a semantic `<button>` with ARIA label and focus ring
-  - DeveloperDashboard project cards are now semantic `<a>` links with keyboard/focus/ARIA
+- All lint errors and warnings in production code (`npm run lint` passes).
+- Modal accessibility (BookingModal): dialog semantics, focus trap, Esc-to-close, explicit labels.
+- Keyboard navigation improvements for interactive UI elements.
 
-### Applied Solutions
-- Escaped all unescaped apostrophes in user-facing strings
-- Refactored modal to be fully WCAG-compliant (dialog semantics, focus management, keyboard close)
-- Replaced non-semantic click targets with keyboard-accessible controls and visible focus styles
+## Phase 2 Issues Addressed (March 1, 2026)
+### Changes Applied
+- Moved data loading to server-rendered paths:
+  - Added server data layer: `lib/site-data.ts`
+  - `app/page.tsx` now loads selected projects, experience, and certificates on server and passes to client sections.
+  - `app/about/page.tsx` now server-loads experience and passes to `app/about/AboutPageClient.tsx`.
+  - `app/portfolio/page.tsx` now server-loads all projects and passes to `app/features/portfolio/PortfolioPageClient.tsx`.
+  - `app/recognition/page.tsx` now server-loads certificates.
+  - `app/projects/[slug]/page.tsx` now resolves project data server-side with `generateStaticParams` + server `notFound()` handling.
+- Generated per-page metadata and canonical URLs (no global canonical):
+  - Added reusable SEO helper: `lib/seo.ts`
+  - Added route metadata for `/`, `/about`, `/blog`, `/portfolio`, `/recognition`, `/dashboard`, `/freelancing`, `/links`, and dynamic metadata for `/blog/[slug]`, `/projects/[slug]`.
+  - Removed global canonical from `app/layout.tsx`.
+- Updated sitemap for all indexable routes:
+  - `app/sitemap.ts` now includes `/`, `/about`, `/blog`, `/dashboard`, `/freelancing`, `/links`, `/portfolio`, `/recognition`, all blog slugs, and all project slugs.
+- Migrated images to `next/image` where practical:
+  - Project detail hero/screenshots now use `next/image`.
+  - MDX image mapping (`Img`) now uses `next/image`.
+  - Raw `<img>` usage in `app` routes/components removed.
+- Architecture improvements:
+  - Split large route logic into feature modules:
+    - `app/features/portfolio/*`
+    - `app/features/project-details/ProjectDetailsClient.tsx`
+    - `app/features/recognition/RecognitionSection.tsx`
+  - Extracted reusable hooks/primitives:
+    - `app/hooks/useRevealHeader.ts`
+    - `app/features/projects/hooks/useInteractiveRevealCard.ts`
+    - shared project card primitive: `app/features/projects/ProjectShowcaseCard.tsx`
+  - Reduced duplication across portfolio/selected projects/recognition card patterns.
+
+### Performance / SEO Improvements
+- Lower client JS/data-fetch overhead on core content routes by shifting JSON reads to server execution.
+- Better crawl consistency through route-level canonical metadata and sitemap parity.
+- Improved image delivery path via `next/image` for project and MDX media.
+- Dynamic project/blog routes now precomputed for static params where applicable, improving cacheability and discoverability.
+
+### SEO Validation Status
+- Metadata: per-route metadata added across indexable routes.
+- Canonical: canonical now set per route (including dynamic blog/project pages), global canonical removed.
+- Robots/Sitemap alignment:
+  - `app/robots.ts` references `https://www.mehedi-hasan.me/sitemap.xml`.
+  - `app/sitemap.ts` includes all intended indexable routes and dynamic content URLs.
+
+### Build / Quality Checks
+- `npm run lint`: pass
+- `npx tsc --noEmit`: pass
+- `npm run build -- --webpack`: pass
+- Note: default Turbopack build in this sandbox failed due OS-level port binding restriction, not application code.
 
 ### Remaining Recommendations
-- Address image optimization warnings (migrate `<img>` to `next/image`)
-- Fix animation cleanup in SmoothScroll
-- Update sitemap for all indexable routes
-- Refactor large components for maintainability
-- Complete SEO and server-rendering improvements (Phase 2)
+- Fix animation loop cleanup in `app/components/SmoothScroll.tsx` (`requestAnimationFrame` cancel on unmount + reduced-motion fallback).
+- Refactor remaining very large UI components (especially `Navbar`, `DeveloperDashboard`) into smaller feature modules.
+- Add CI quality gates/scripts for `typecheck` and test execution.
+- Add automated SEO assertions (canonical/robots/sitemap snapshots) to prevent regressions.
+- Update `README.md` to reflect current architecture and route/module structure.
 
-### Status Checklist
+## Updated Tracking Checklist
 - [x] Lint clean (`npm run lint`)
 - [x] A11y baseline pass (keyboard + screen reader checks)
-- [ ] Server-rendered project/portfolio content
-- [ ] Route-specific metadata and canonical
-- [ ] Sitemap updated for all indexable pages
-- [ ] Components refactored into modular architecture
+- [x] Server-rendered project/portfolio/recognition/experience data paths
+- [x] Route-specific metadata and canonical
+- [x] Sitemap updated for all indexable pages
+- [x] Components refactored into modular architecture (Phase 2 scope)
 - [ ] Test and CI quality gates added
-
-2. **Image optimization not fully applied**  
-   - Files: `app/blog/components/mdx-components.tsx` (line 50), `app/projects/[slug]/page.tsx` (lines 502, 530, 533, 536)  
-   - Impact: LCP/bandwidth inefficiency and missed Next.js optimization.
-   - Action: migrate to `next/image` where practical (including MDX image mapping).
-
-3. **Animation loop cleanup bug in smooth scroll**  
-   - File: `app/components/SmoothScroll.tsx` (lines 15-24)  
-   - Impact: `requestAnimationFrame` loop is not cancelled on unmount.
-   - Action: store RAF id and cancel in cleanup; add reduced-motion bypass.
-
-4. **Dashboard links open via `window.open` without semantic anchor**  
-   - File: `app/components/DeveloperDashboard.tsx` (lines 298-310)  
-   - Impact: accessibility + potential `noopener` hardening gap.
-   - Action: render as `<a target="_blank" rel="noopener noreferrer">`.
-
-### Medium
-1. **Sitemap misses important static routes**  
-   - File: `app/sitemap.ts` (line 8)  
-   - Impact: partial discoverability (`/freelancing`, `/recognition` omitted).
-   - Action: include all core indexable routes.
-
-2. **Over-aggressive global ScrollTrigger cleanup**  
-   - File: `app/links/page.tsx` (line 261)  
-   - Impact: can kill unrelated triggers from other mounted components.
-   - Action: scope and kill only triggers created in that component.
-
-3. **README drift from actual implementation**  
-   - File: `README.md` (lines 3, 8, 19-23, 27-40)  
-   - Impact: client trust and onboarding friction.
-   - Action: sync tech/version/routes with current codebase.
-
-4. **Architecture concentration in very large component files**  
-   - Examples: `app/components/DeveloperDashboard.tsx` (834 lines), `app/projects/[slug]/page.tsx` (903 lines), `app/components/Navbar.tsx` (558 lines)  
-   - Impact: harder testing, slower iteration, higher regression risk.
-   - Action: split into feature modules/hooks/presentational components.
-
-## Strengths Worth Keeping
-- Strong visual identity and premium animation feel.
-- Good use of typed interfaces and reusable utility class patterns.
-- Content breadth is strong for freelance positioning (portfolio, blog, services, recognition).
-
-## Modernization Roadmap
-
-### Phase 1 (1-2 days) - Quality Gate + Accessibility Baseline
-- Fix all lint errors/warnings.
-- Implement modal a11y: dialog semantics, focus trap, Esc handling, labels.
-- Replace non-semantic click targets with keyboard-accessible controls.
-- Add visible `:focus-visible` styles globally.
-
-### Phase 2 (2-4 days) - SEO + Rendering Architecture
-- Move portfolio/project/recognition/experience data loading to server-rendered paths.
-- Generate per-page metadata + canonical URLs.
-- Update sitemap route coverage and validate robots/canonical alignment.
-- Convert key images to `next/image` and optimize sizes/priorities.
-
-### Phase 3 (3-5 days) - Scalability + Maintainability
-- Split oversized components into feature folders (`components`, `hooks`, `types`, `constants`).
-- Centralize card primitives and animation helpers to remove duplication.
-- Add lightweight test coverage (unit + smoke e2e) and `typecheck`/`test` scripts.
-- Introduce performance budgets (LCP/CLS/JS payload) in CI checks.
-
-### Phase 4 (Ongoing) - Freelance Conversion Optimization
-- Add proof blocks (before/after metrics, testimonials, client logos).
-- Add analytics and event tracking for CTA funnels (book call, contact submit, portfolio clicks).
-- Build a service-specific landing funnel for US clients (SEO + targeted CTA copy).
-
-## Suggested Tracking Checklist
-- [ ] Lint clean (`npm run lint`)
-- [ ] A11y baseline pass (keyboard + screen reader checks)
-- [ ] Server-rendered project/portfolio content
-- [ ] Route-specific metadata and canonical
-- [ ] Sitemap updated for all indexable pages
-- [ ] Components refactored into modular architecture
-- [ ] Test and CI quality gates added
-

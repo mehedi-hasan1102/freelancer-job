@@ -33,9 +33,6 @@ export const metadata: Metadata = {
     "Web Application Developer",
   ],
   authors: [{ name: "Mehedi Hasan" }],
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     title: "Mehedi Hasan | Full-Stack Developer",
     description: "Portfolio of Mehedi Hasan - React & Next.js Developer",
