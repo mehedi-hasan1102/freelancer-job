@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "title": "Complete Web Development Course",
+    "issuer": "Programming Hero",
+    "year": "2024",
+    "image": "/assets/images/certificates/ph.jpg",
+    "skills": ["Web Design", "User Experience"],
+    "credentialUrl": "https://drive.google.com/file/d/1p4eYIgQRCzf8a77dwQ1ws53fPNkE0FW1/view"
+  },
+  {
+    "id": 2,
+    "title": "Voluntary Blood Donation Program",
+    "issuer": "Quantum Foundation",
+    "year": "2022",
+    "image": "/assets/images/certificates/blood.jpg",
+    "skills": ["Volunteer", "Community"],
+    "credentialUrl": "https://drive.google.com/file/d/1di6ooU-LHbkljqtJL-ZqioI2q07Mw4hq/view"
+  },
+  {
+    "id": 3,
+    "title": "APTIS – Forward Thinking English Testing",
+    "issuer": "British Council",
+    "year": "2019",
+    "image": "/assets/images/certificates/eng.png",
+    "skills": ["Communication", "Language"],
+    "credentialUrl": "https://drive.google.com/file/d/1TJoHDXsm-6OxWE1DOFsxyM-QJuIZh938/view"
+  },
+  {
+    "id": 4,
+    "title": "Quantum Method Course",
+    "issuer": "Yoga Foundation",
+    "year": "2018",
+    "image": "/assets/images/certificates/mehedi_hasan_certificate_Quantum_Method_Course.jpg",
+    "skills": ["Positive Lifestyle", "Meditation"],
+    "credentialUrl": "https://drive.google.com/file/d/1hUAAXA4n8V-8e9WQ3DtZ0uAfrgbHg8zd/view"
+  },
+  {
+    "id": 5,
+    "title": "Communication Hack",
+    "issuer": "10 Minute School",
+    "year": "2025",
+    "image": "/assets/images/certificates/Mehedi_Hasan_communication_Hack_Certificate_page-0001.jpg",
+    "skills": ["Communication", "Soft Skills"],
+    "credentialUrl": "https://drive.google.com/file/d/1cf5tLmK_vTQ1z6KHBcotEB4-GWz-fbhc/view"
+  },
+  {
+    "id": 6,
+    "title": "Video Editing and 2D/3D Animation",
+    "issuer": "Bangladesh Hi-Tech Park Authority",
+    "year": "2019",
+    "image": "/assets/images/certificates/Mehedi_Hasan_Video_Editing_Certificate.png",
+    "skills": ["Video Editing", "Creative Design"],
+    "credentialUrl": "https://drive.google.com/file/d/1QsiMKXKNZjGqo2itL5seaCA5AGBWjQfp/view"
+  },
+  {
+    "id": 7,
+    "title": "Web Development (Laravel)",
+    "issuer": "Bangladesh Hi-Tech Park Authority",
+    "year": "2019",
+    "image": "/assets/images/certificates/Mehedi_Hasan_Web_Certificate .png",
+    "skills": ["Web Design", "User Experience"],
+    "credentialUrl": "https://drive.google.com/file/d/1vcrNNMHaPVVAZrtCuGeTN2YzdSMHeIzF/view"
+  },
+  {
+    "id": 8,
+    "title": "Corporate Etiquette",
+    "issuer": "10 Minute School",
+    "year": "2025",
+    "image": "/assets/images/certificates/Mehedi_Hasan_Corpureate_manner_Certificate _page-0001.jpg",
+    "skills": ["Communication", "Professional Skills"],
+    "credentialUrl": "https://drive.google.com/file/d/1uzk4VoqCF0-l0jXTlojGOnVfvSvMA84r/view"
+  },
+  {
+    "id": 9,
+    "title": "CV Writing and Interview",
+    "issuer": "10 Minute School",
+    "year": "2024",
+    "image": "/assets/images/certificates/Mehedi_Hasan_cv-cource-certificate_page-0001.jpg",
+    "skills": ["CV Writing", "Interview Skills"],
+    "credentialUrl": "https://drive.google.com/file/d/14CKGM1CbzcYJhaOTmDovZ331W9UE5gTN/view?usp=sharing"
+  }
+]
