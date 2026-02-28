@@ -1,77 +1,97 @@
 # Portfolio Review Feedback (US Freelancing Client Lens)
 
 ## Executive Summary
-- Visual direction remains strong and distinctive.
-- Phase 2 SEO/rendering architecture is now implemented: server-driven data for key content routes, per-route canonical metadata, expanded sitemap coverage, and image optimization migration.
-- Codebase is more modular with shared feature hooks/primitives for repeated card and header patterns.
+- Phase 2 SEO/rendering work remains in place and stable.
+- Phase 3 is now implemented: large component decomposition, reusable hooks/primitives, and testing/CI foundations.
+- Build quality gates pass locally: lint, typecheck, tests, and production build (`--webpack`).
 
 ## Phase 1 Issues Addressed (March 1, 2026)
 ### Issues Fixed
-- All lint errors and warnings in production code (`npm run lint` passes).
-- Modal accessibility (BookingModal): dialog semantics, focus trap, Esc-to-close, explicit labels.
-- Keyboard navigation improvements for interactive UI elements.
+- Lint cleanup and accessibility baseline improvements completed.
+- Modal accessibility and keyboard interaction semantics improved.
 
 ## Phase 2 Issues Addressed (March 1, 2026)
-### Changes Applied
-- Moved data loading to server-rendered paths:
-  - Added server data layer: `lib/site-data.ts`
-  - `app/page.tsx` now loads selected projects, experience, and certificates on server and passes to client sections.
-  - `app/about/page.tsx` now server-loads experience and passes to `app/about/AboutPageClient.tsx`.
-  - `app/portfolio/page.tsx` now server-loads all projects and passes to `app/features/portfolio/PortfolioPageClient.tsx`.
-  - `app/recognition/page.tsx` now server-loads certificates.
-  - `app/projects/[slug]/page.tsx` now resolves project data server-side with `generateStaticParams` + server `notFound()` handling.
-- Generated per-page metadata and canonical URLs (no global canonical):
-  - Added reusable SEO helper: `lib/seo.ts`
-  - Added route metadata for `/`, `/about`, `/blog`, `/portfolio`, `/recognition`, `/dashboard`, `/freelancing`, `/links`, and dynamic metadata for `/blog/[slug]`, `/projects/[slug]`.
-  - Removed global canonical from `app/layout.tsx`.
-- Updated sitemap for all indexable routes:
-  - `app/sitemap.ts` now includes `/`, `/about`, `/blog`, `/dashboard`, `/freelancing`, `/links`, `/portfolio`, `/recognition`, all blog slugs, and all project slugs.
-- Migrated images to `next/image` where practical:
-  - Project detail hero/screenshots now use `next/image`.
-  - MDX image mapping (`Img`) now uses `next/image`.
-  - Raw `<img>` usage in `app` routes/components removed.
-- Architecture improvements:
-  - Split large route logic into feature modules:
-    - `app/features/portfolio/*`
-    - `app/features/project-details/ProjectDetailsClient.tsx`
-    - `app/features/recognition/RecognitionSection.tsx`
-  - Extracted reusable hooks/primitives:
-    - `app/hooks/useRevealHeader.ts`
-    - `app/features/projects/hooks/useInteractiveRevealCard.ts`
-    - shared project card primitive: `app/features/projects/ProjectShowcaseCard.tsx`
-  - Reduced duplication across portfolio/selected projects/recognition card patterns.
+### Changes Applied (Summary)
+- Server-rendered data paths for portfolio/projects/recognition/experience.
+- Per-route metadata + canonical (global canonical removed).
+- Expanded sitemap coverage and robots alignment.
+- `next/image` migration for practical app + MDX image paths.
 
-### Performance / SEO Improvements
-- Lower client JS/data-fetch overhead on core content routes by shifting JSON reads to server execution.
-- Better crawl consistency through route-level canonical metadata and sitemap parity.
-- Improved image delivery path via `next/image` for project and MDX media.
-- Dynamic project/blog routes now precomputed for static params where applicable, improving cacheability and discoverability.
+## Phase 3 Issues Addressed (March 1, 2026)
+### Phase 3 Changes Applied
+- Refactored large components into feature modules and presentational pieces:
+  - Dashboard extracted into `app/features/dashboard/*`:
+    - `DeveloperDashboardClient.tsx`
+    - `hooks/useGithubDashboardData.ts`
+    - `hooks/useCardGlow.ts`
+    - `components/{ProfileCard,StatsCard,ContributionsCard,LatestCommitCard,ProjectCard,RecentProjectsSection,DashboardSkeleton}.tsx`
+    - `types.ts`, `constants.ts`, `utils.ts`
+  - Project detail page further modularized under `app/features/project-details/*`:
+    - Section components (`BackToPortfolioLink`, `ProjectHeroSection`, `TechStackSection`, `ScreenshotsSection`, `CaseStudySection`)
+    - Hooks (`useProjectDetailsAnimations`, `useBottomCardGlow`)
+    - Derived-data utility (`case-study.ts`)
+    - Style extraction (`projectDetailsStyles.ts`)
+- Reduced top-level component complexity:
+  - `app/components/DeveloperDashboard.tsx` now a thin wrapper.
+  - `ProjectDetailsClient` is now orchestration-oriented instead of monolithic.
 
-### SEO Validation Status
-- Metadata: per-route metadata added across indexable routes.
-- Canonical: canonical now set per route (including dynamic blog/project pages), global canonical removed.
-- Robots/Sitemap alignment:
-  - `app/robots.ts` references `https://www.mehedi-hasan.me/sitemap.xml`.
-  - `app/sitemap.ts` includes all intended indexable routes and dynamic content URLs.
+### Architecture Improvements
+- Reusable hooks/primitives expanded to reduce duplication:
+  - `useCardGlow` shared across multiple dashboard cards.
+  - Existing shared hooks (`useRevealHeader`, `useInteractiveRevealCard`) retained and aligned with feature structure.
+- Improved separation of concerns:
+  - Fetch/state logic isolated in hooks.
+  - Presentational sections/cards isolated in dedicated components.
+  - Shared constants/types/utils moved out of render files.
+- Scalability improvements:
+  - Feature-folder architecture now consistent across portfolio, recognition, dashboard, and project-details.
+
+### Testing / CI Additions
+- Added scripts in `package.json`:
+  - `typecheck`: `tsc --noEmit`
+  - `test`: `node --test "tests/**/*.test.mjs"`
+- Added lightweight tests:
+  - Unit tests:
+    - `tests/unit/portfolio-utils.test.mjs`
+    - `tests/unit/seo-utils.test.mjs`
+  - Smoke tests:
+    - `tests/smoke/seo-wiring.test.mjs`
+- Added CI quality workflow:
+  - `.github/workflows/quality.yml`
+  - Gates: `lint`, `typecheck`, and tests on push/PR.
+
+### Performance / Component Structure Updates
+- Applied lazy loading where appropriate:
+  - Dynamic loading for heavier homepage sections (`Recognition`, `GitHubActivity`) with stable loading placeholders.
+  - Dynamic loading for dashboard route component with fallback section.
+- Improved image loading strategy:
+  - Reduced aggressive `priority` usage in card grids (only first card prioritized).
+  - Contribution graph image explicitly lazy-loaded.
+- LCP/CLS impact review (implementation-level):
+  - Better code-splitting for below-the-fold client sections reduces initial JS pressure.
+  - Placeholder sections for dynamic imports help avoid layout jumps.
+  - Hero image in project details remains prioritized for route-level LCP.
 
 ### Build / Quality Checks
+- `npm run test`: pass
 - `npm run lint`: pass
-- `npx tsc --noEmit`: pass
+- `npm run typecheck`: pass
 - `npm run build -- --webpack`: pass
-- Note: default Turbopack build in this sandbox failed due OS-level port binding restriction, not application code.
 
 ### Remaining Recommendations
-- Fix animation loop cleanup in `app/components/SmoothScroll.tsx` (`requestAnimationFrame` cancel on unmount + reduced-motion fallback).
-- Refactor remaining very large UI components (especially `Navbar`, `DeveloperDashboard`) into smaller feature modules.
-- Add CI quality gates/scripts for `typecheck` and test execution.
-- Add automated SEO assertions (canonical/robots/sitemap snapshots) to prevent regressions.
-- Update `README.md` to reflect current architecture and route/module structure.
+- Refactor remaining oversized components (`app/components/Navbar.tsx`, `app/components/Skills.tsx`) into feature modules.
+- Add a small API-layer test seam (mocked GitHub responses) for `useGithubDashboardData` to harden behavior under rate limiting.
+- Add optional E2E smoke (Playwright/Cypress) for route rendering + metadata assertions.
+- Add performance budget checks (bundle size/LCP targets) into CI once analytics baselines are finalized.
 
-## Updated Tracking Checklist
+## Updated Status Checklist
 - [x] Lint clean (`npm run lint`)
 - [x] A11y baseline pass (keyboard + screen reader checks)
 - [x] Server-rendered project/portfolio/recognition/experience data paths
 - [x] Route-specific metadata and canonical
 - [x] Sitemap updated for all indexable pages
-- [x] Components refactored into modular architecture (Phase 2 scope)
-- [ ] Test and CI quality gates added
+- [x] Components refactored into modular architecture (Phase 2 + Phase 3 scope)
+- [x] Reusable hooks/primitives expanded to reduce duplication
+- [x] `typecheck` script added
+- [x] Unit/smoke tests added
+- [x] CI quality gates added (lint + typecheck + tests)

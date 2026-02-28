@@ -54,7 +54,7 @@ const CertificateCard = ({ certificate, index }: CertificateCardProps) => {
           fill
           className="h-full w-full object-cover object-center transition-transform duration-[400ms] [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.05]"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          priority={index < 3}
+          priority={index === 0}
         />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(0,0,0,0.3)_100%)]" />
       </div>

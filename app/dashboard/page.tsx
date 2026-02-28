@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
-import DeveloperDashboard from "../components/DeveloperDashboard";
+import dynamic from "next/dynamic";
 import { createPageMetadata } from "@/lib/seo";
+
+const DeveloperDashboard = dynamic(() => import("../components/DeveloperDashboard"), {
+  loading: () => (
+    <section
+      className="min-h-screen"
+      style={{ background: "var(--bg)" }}
+      aria-label="Loading dashboard"
+    />
+  ),
+});
 
 export const metadata: Metadata = createPageMetadata({
   path: "/dashboard",
