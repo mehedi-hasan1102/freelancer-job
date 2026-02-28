@@ -319,6 +319,10 @@ function PortfolioPageContent() {
           <h2 className="sectionTitleGlobal">
             All <span style={{ color: "var(--accent)" }}>PROJECTS</span>
           </h2>
+          <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
+            I build conversion-focused web products, landing pages, and UI systems with clean
+            execution, strong performance, and clear business intent.
+          </p>
         </div>
 
         <div className="mb-8 flex flex-col gap-4 min-[769px]:mb-10 min-[769px]:flex-row min-[769px]:items-center min-[769px]:justify-between">

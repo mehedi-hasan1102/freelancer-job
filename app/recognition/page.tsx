@@ -234,6 +234,10 @@ export default function RecognitionPage() {
             Achievements
             <span style={{ color: 'var(--accent)' }}> & Recognition</span>
           </h1>
+          <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
+            Certifications and recognitions that reflect consistent upskilling across modern
+            frontend development and product delivery.
+          </p>
         </div>
 
         <div className="grid grid-cols-3 gap-[clamp(1rem,2vw,1.5rem)] max-[1024px]:grid-cols-2 max-[1024px]:gap-[clamp(1rem,2vw,1.25rem)] max-[768px]:grid-cols-2 max-[768px]:gap-[clamp(0.875rem,2vw,1.25rem)] max-[480px]:grid-cols-1 max-[480px]:gap-[clamp(0.875rem,2vw,1.25rem)]">

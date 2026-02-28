@@ -273,6 +273,10 @@ export default function SocialCorner() {
           <h1 className="sectionTitleGlobal">
             Connect <span style={{ color: "var(--accent)" }}>With Me</span>
           </h1>
+          <p className="mx-auto mt-4 max-w-[760px] text-center text-[0.95rem] leading-relaxed text-[var(--text-secondary)]">
+            All my official profiles, writing platforms, and social channels in one place for
+            quick contact and collaboration.
+          </p>
         </div>
 
         {/* Social Cards Grid */}
